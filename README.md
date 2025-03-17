@@ -271,8 +271,48 @@ $30946 \times (0.95 \times 0.06 + 0.05 \times 0.12) \approx 1949 с$.
 
 ## 5. Логическая схема БД
 
+### Схема
+![db-scheme](imgs/db-scheme.png)
 
+### Расчет размеров
+Можно рассчитать размер одной записи для каждой таблицы:
+| Таблица           | Размер одной записи (байт)                                      |
+|------------------|--------------------------------------------------|
+| User            | 16 (UUID) + 7×50 (TEXT) + 2×8 (TIMESTAMP) = **382**  |
+| Game            | 16 (UUID) + 3×50 (TEXT) + 2×16 (UUID) + 5 (DECIMAL) + 3 (DECIMAL) + 200 (JSON) = **390** |
+| Developer       | 16 (UUID) + 2×50 (TEXT) = **116**                   |
+| UserGame        | 2×16 (UUID) + 2×8 (TIMESTAMP) + 8 (BIGINT) = **56**  |
+| Achievement     | 16 (UUID) + 3×50 (TEXT) = **166**                   |
+| UserAchievement | 2×16 (UUID) + 8 (TIMESTAMP) = **40**                 |
+| Screenshot      | 16 (UUID) + 16 (UUID) + 3×50 (TEXT) + 8 (TIMESTAMP) = **190** |
+| UserRelationship| 16 (UUID) + 16 (UUID) + 16 (UUID) + 50 (TEXT) = **98** |
+| GameFile        | 16 (UUID) + 3×50 (TEXT) = **166**                   |
+| Item            | 16 (UUID) + 4×50 (TEXT) = **216**                   |
+| UserItem        | 16 (UUID) + 16 (UUID) + 16 (UUID) = **48**          |
+| Trade           | 16 (UUID) + 16 (UUID) + 16 (UUID) + 50 (TEXT) = **98** |
+| Review          | 16 (UUID) + 16 (UUID) + 50 (TEXT) + 8 (TIMESTAMP) + 4 (INT) = **94** |
+| Order           | 16 (UUID) + 16 (UUID) + 16 (UUID) + 8 (TIMESTAMP) + 5 (DECIMAL) + 2×50 (TEXT) = **161** |
+| Transaction     | 16 (UUID) + 16 (UUID) + 16 (UUID) + 8 (TIMESTAMP) + 50 (TEXT) = **106** |
+| Wallet          | 16 (UUID) + 16 (UUID) + 5 (DECIMAL) + 50 (TEXT) + 8 (TIMESTAMP) = **95** |
 
+Теперь можно рассчитать размер всех данных:
+| Таблица          | Общий размер (ГБ)                                  |
+|-----------------|------------------------------------------------|
+| User           | 919M * 400 Б = 351.8 ГБ                        |
+| Game           | 130K * 400 Б = 0.048 ГБ                        |
+| Developer      | 44K[^17] * 120 Б = 0.0051 ГБ                        |
+| Achievement    | (130K * 25) * 176 Б = 0.538 ГБ                 |
+| Screenshot     | 919M * 200 Б = 174.3 ГБ                        |
+| Item           | 10K * 220 Б = 0.0021 ГБ                        |
+| Review        | (130K * 100) * 100 Б = 1.2 ГБ                   |
+| Trade         | 2.5M * 100 Б = 0.245 ГБ                         |
+| Order         | (61 * 132M * 2.5M) * 320 Б = 52,000 ГБ         |
+| Transaction   | (61 * 132M * 2.5M) * 210 Б = 34,200 ГБ         |
+| Wallet        | 132M * 100 Б = 11.7 ГБ                          |
+| UserGame      | (919M * 2) * 11 Б = 202.3 ГБ                    |
+| UserAchievement | (919M * 2 * 11 * 25) * 0.2 Б = 924.8 ГБ         |
+| UserRelationship | (919M * 10) * 1 Б = 8.6 ГБ                    |
+| UserItem      | (919M * 100) * 8.6 Б = 787.4 ГБ                 |
 
 ## Список источников
 [^1]: [https://partner.steamgames.com/](https://partner.steamgames.com/)
@@ -291,3 +331,4 @@ $30946 \times (0.95 \times 0.06 + 0.05 \times 0.12) \approx 1949 с$.
 [^14]: [https://partner.steamgames.com/doc/api/isteamfriends](https://partner.steamgames.com/doc/api/isteamfriends)
 [^15]: [https://www.researchgate.net/figure/Average-Number-of-Hours-Spent-Gaming-in-a-Typical-Day-for-Female-and-Male-Gamers_fig2_283793880](https://www.researchgate.net/figure/Average-Number-of-Hours-Spent-Gaming-in-a-Typical-Day-for-Female-and-Male-Gamers_fig2_283793880)
 [^16]: [https://www.playground.ru/misc/news/sudya_po_vsemu_igroki_ps5_tratyat_gorazdo_bolshe_vremeni_na_odinochnye_igry_chem_na_mnogopolzovatelskie-1674125?utm_source=chatgpt.com](https://www.playground.ru/misc/news/sudya_po_vsemu_igroki_ps5_tratyat_gorazdo_bolshe_vremeni_na_odinochnye_igry_chem_na_mnogopolzovatelskie-1674125?utm_source=chatgpt.com)
+[^17]: [https://www.gamedeveloper.com/game-platforms/there-are-44-000-game-developers-on-steam-who-are-they-](https://www.gamedeveloper.com/game-platforms/there-are-44-000-game-developers-on-steam-who-are-they-)
