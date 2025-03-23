@@ -272,47 +272,62 @@ $30946 \times (0.95 \times 0.06 + 0.05 \times 0.12) \approx 1949 с$.
 ## 5. Логическая схема БД
 
 ### Схема
-![db-scheme](imgs/db-scheme.png)
+![db-scheme](imgs/db-scheme.svg)
 
 ### Расчет размеров
 Можно рассчитать размер одной записи для каждой таблицы:
-| Таблица           | Размер одной записи (байт)                                      |
-|------------------|--------------------------------------------------|
-| User            | 16 (UUID) + 7×50 (TEXT) + 2×8 (TIMESTAMP) = **382**  |
-| Game            | 16 (UUID) + 3×50 (TEXT) + 2×16 (UUID) + 5 (DECIMAL) + 3 (DECIMAL) + 200 (JSON) = **390** |
-| Developer       | 16 (UUID) + 2×50 (TEXT) = **116**                   |
-| UserGame        | 2×16 (UUID) + 2×8 (TIMESTAMP) + 8 (BIGINT) = **56**  |
-| Achievement     | 16 (UUID) + 3×50 (TEXT) = **166**                   |
-| UserAchievement | 2×16 (UUID) + 8 (TIMESTAMP) = **40**                 |
-| Screenshot      | 16 (UUID) + 16 (UUID) + 3×50 (TEXT) + 8 (TIMESTAMP) = **190** |
-| UserRelationship| 16 (UUID) + 16 (UUID) + 16 (UUID) + 50 (TEXT) = **98** |
-| GameFile        | 16 (UUID) + 3×50 (TEXT) = **166**                   |
-| Item            | 16 (UUID) + 4×50 (TEXT) = **216**                   |
-| UserItem        | 16 (UUID) + 16 (UUID) + 16 (UUID) = **48**          |
-| Trade           | 16 (UUID) + 16 (UUID) + 16 (UUID) + 50 (TEXT) = **98** |
-| Review          | 16 (UUID) + 16 (UUID) + 50 (TEXT) + 8 (TIMESTAMP) + 4 (INT) = **94** |
-| Order           | 16 (UUID) + 16 (UUID) + 16 (UUID) + 8 (TIMESTAMP) + 5 (DECIMAL) + 2×50 (TEXT) = **161** |
-| Transaction     | 16 (UUID) + 16 (UUID) + 16 (UUID) + 8 (TIMESTAMP) + 50 (TEXT) = **106** |
-| Wallet          | 16 (UUID) + 16 (UUID) + 5 (DECIMAL) + 50 (TEXT) + 8 (TIMESTAMP) = **95** |
+| Таблица                   | Размер одной записи (байт) |
+|---------------------------|----------------------------|
+| User                      | 345                        |
+| MultiplayerSession        | 83                         |
+| MultiplayerSessionUser    | 66                         |
+| Session                   | 100                        |
+| Game                      | 517                        |
+| GamePrice                 | 58                         |
+| Developer                 | 98                         |
+| UserGame                  | 64                         |
+| Achievement               | 105                        |
+| UserAchievement           | 48                         |
+| Screenshot                | 103                        |
+| UserRelationship          | 54                         |
+| GameFile                  | 106                        |
+| Item                      | 106                        |
+| UserItem                  | 36                         |
+| Trade                     | 54                         |
+| TradeItem                 | 38                         |
+| Review                    | 276                        |
+| OrderItem                 | 124                        |
+| ItemPrice                 | 54                         |
+| OrderGame                 | 120                        |
+| OrderGameCart             | 48                         |
+| Wallet                    | 64                         |
 
 Теперь можно рассчитать размер всех данных:
-| Таблица            | Общий размер                                |
-|--------------------|---------------------------------------------|
-| User              | 919M * 400 = 367.6 ГБ                       |
-| Game              | 130K * 400 = 0.052 ГБ                       |
-| Developer        | 44K * 120 = 0.00528 ГБ                      |
-| Achievement      | (130K * 25) * 176 = 0.572 ГБ                |
-| Screenshot       | 919M * 200 = 183.8 ГБ                       |
-| Item            | 10K * 220 = 0.0022 ГБ                        |
-| Review          | (130K * 100) * 100 = 1.3 ГБ                  |
-| Trade           | (2.5M * 31 * 24) * 98 = 182.28 ГБ            |
-| Order           | (132M * 11 * 2) * 320 = 929.28 ГБ            |
-| Transaction     | (132M * 11 * 2) * 210 = 609.84 ГБ            |
-| Wallet          | 132M * 100 = 13.2 ГБ                         |
-| UserGame        | (919M * 2) * 11 = 20.218 ГБ                  |
-| UserAchievement | (919M * 2 * 11 * 25 * 0.2) * 11 = 1111.99 ГБ |
-| UserRelationship| (919M * 10) * 1 = 9.19 ГБ                    |
-| UserItem        | (919M * 100) * 8.6 = 790.34 ГБ               |
+| Таблица                  | Суммарный размер (байт)                                           |
+|--------------------------|------------------------------------------------------------------|
+| **User**                 | 919 * 10^6 * 345 = 317.055 Гб                                   |
+| **MultiplayerSession**   | 7 * 60 * 10^6 * 83 = 34.914 Гб                                 |
+| **MultiplayerSessionUser** | 3 * 7 * 60 * 10^6 * 66 = 41.61 Гб                             |
+| **Session**              | 132 * 10^6 * 100 = 12.3 Гб                                     |
+| **Game**                 | 130000 * 517 = 67.21 Гб                                        |
+| **GamePrice**            | 10 * 130000 * 58 = 0.0724 Гб                                   |
+| **Developer**            | 44000 * 98 = 4.3 Мб                                            |
+| **UserGame**             | 2 * 11 * 919 * 10^6 * 64 = 1.29 Тб                             |
+| **Achievement**          | 130000 * 25 * 105 = 341.25 Мб                                  |
+| **UserAchievement**      | 919 * 10^6 * 2 * 11 * 25 * 0.2 = 101.79 Тб                     |
+| **Screenshot**           | 919 * 10^6 * 200 * 103 = 189.66 Тб                             |
+| **UserRelationship**     | 919 * 10^6 * 10 * 54 = 495.7 Гб                                |
+| **GameFile**             | 130000 * 106 = 13.78 Гб                                        |
+| **Item**                 | 10000 * 106 = 1.06 Гб                                          |
+| **UserItem**             | 919 * 10^6 * 100 * 36 = 3.31 Тб                                |
+| **Trade**                | 2.5 * 10^6 * 31 * 24 * 54 = 106.44 Гб                          |
+| **TradeItem**            | 8 * 2.5 * 10^6 * 31 * 24 * 38 = 153.41 Гб                      |
+| **Review**               | 130000 * 100 * 276 = 3.59 Гб                                   |
+| **OrderItem**            | 132 * 10^6 * 100 = 12.3 Гб                                     |
+| **ItemPrice**            | 10000 * 10 * 54 = 5.4 Мб                                       |
+| **OrderGame**            | 11 * 130000 * 120 = 171.6 Мб                                   |
+| **OrderGameCart**        | 2 * 11 * 130000 * 48 = 1.4 Гб                                  |
+| **Wallet**               | 919 * 10^6 * 64 = 58.7 Гб                                      |
 
 ### Требования к консистентности
 - Пользователи: При удалении пользователя необходимо удалить все связанные данные (отзывы, скриншоты, ...);
