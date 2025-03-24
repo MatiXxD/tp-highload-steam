@@ -377,8 +377,8 @@ $30946 \times (0.95 \times 0.06 + 0.05 \times 0.12) \approx 1949 с$.
   - индекс на `order_date`, чтобы быстро сортировать по дате;
 
 ### Выбор СУБД
-- Для `User`, `Game`, `UserGame`, `Achievement`, `Screenshot`, `Item`, `Review`, `Wallet` будем использовать PostgreSQL
-- Для `UserInfo`, `GameInfo`, будем использовать MongoDB, т.к. данные в этих таблицах сильно неструктурированные;
+- Для `User`, `Game`, `UserGame`, `Achievement`, `Screenshot`, `Item`, `Wallet` будем использовать PostgreSQL
+- Для `UserInfo`, `GameInfo`, `Review` будем использовать MongoDB, т.к. данные в этих таблицах сильно неструктурированные;
 - Для `OrderGame`, `OrderItem`, `Trade` будем использовать Tarantool, т.к. обеспечивает высокую производительность и дает ACID-гарантии;
 - Для `Session`, `MultiplayerSession` будем использовать Redis;
 - Таблицы `UserSearch`, `GameSearch`, `ItemSearch` специально созданы для обеспечения быстрого поиска с помощью Elasticsearch.
