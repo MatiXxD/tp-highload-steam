@@ -461,6 +461,10 @@ $$Score(game_i, user_i) = \sum{S(game_i, game_j) \cdot Mat(game_i, user_i)}$$
 | **Gitlab Runners**| CI/CD                                       | Удобная настройка пайплайнов, интеграция с gitlab                         |
 
 
+## 10. Схема сервиса
+Ниже приведена схема сервиса, также есть [файл drawio](steam-scheme.drawio).
+![steam-scheme](imgs/steam-scheme.svg)
+
 
 ## Список источников
 [^1]: [https://partner.steamgames.com/](https://partner.steamgames.com/)
